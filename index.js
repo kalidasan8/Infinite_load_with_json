@@ -1,0 +1,67 @@
+let body1 = document.getElementsByClassName("home-link")
+
+
+let limit = 6;
+let pageCount = 1;
+let postCount = 1;
+
+const getPost = async () => {
+  const response = await fetch(`http://localhost:3000/user?_limit=${limit}$_page=${pageCount}`)
+    .then(res => res.json())
+    .then(json => {
+      json.map(data => {
+        console.log(data.card)
+        body1[0].append(tdfun(data));
+
+      })
+    })
+}
+
+getPost();
+
+const showData = () => {
+  setTimeout(() => {
+    limit = limit + 3;
+    getPost();
+
+  }, 300)
+};
+
+window.addEventListener('scroll', () => {
+  const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+
+  if (scrollTop + clientHeight >= scrollHeight) {
+    showData();
+  }
+})
+
+function tdfun({ img, card, text, street, bedroom, bathroom, square, price }) {
+  let g = document.createElement("div");
+  console.log(g);
+  g.innerHTML = `
+    
+    <div class="nav-item">
+    <a href="./form.html" class="nav-link">
+      <div class="card" style="width: auto;">
+      <img src="${img}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <div class="tit-div d-flex justify-content-between align-items-center">
+            <h5 class="card-title">${card}</h5>
+            <p style="border: 1px solid rgb(157, 157, 157); padding: 10px;">Appartment</p>
+          </div>
+          <div class="card-text"><span class="color">${street}</span></div>
+          <div class="icon-1" style="margin-bottom:10px;"><i class="fa fa-bed"></i> <span class="bold-txt">${bedroom}</span>
+            Bedroom&nbsp;&nbsp;&nbsp;<i class="fa fa-bath"></i>&nbsp;<span class="bold-txt">${bathroom}</span> Bathroom</i>
+          </div>
+          <div class="icon-2" style="margin-bottom:10px;"><i class="bi bi-border-all"></i> <span
+              class="bold-txt">${square}</span> Area</div>
+          <div class="txt-1">$ <span class="bold-txt">${price}</span> <span class="color">/ Monthly Rent</span></div>
+
+        </div>
+      </div>
+    </a>
+  </div>
+     
+    `;
+  return g
+}
