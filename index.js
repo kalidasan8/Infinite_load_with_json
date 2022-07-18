@@ -35,6 +35,14 @@ window.addEventListener('scroll', () => {
   }
 })
 
+window.addEventListener('touchmove', () => {
+  const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+
+  if (scrollTop + clientHeight >= scrollHeight) {
+    showData();
+  }
+})
+
 function tdfun({ img, card, text, street, bedroom, bathroom, square, price }) {
   let g = document.createElement("div");
   console.log(g);
